@@ -1,0 +1,13 @@
+steps:
+  - name: 'python:3.9'
+    entrypoint: 'pip'
+    args: ['install', '-r', 'requirements.txt']
+
+  - name: 'python:3.9'
+    entrypoint: 'python'
+    args: ['-m', 'pytest']
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['app', 'deploy', '--quiet']
+
+timeout: 900s

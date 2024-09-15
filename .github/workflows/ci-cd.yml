@@ -29,20 +29,38 @@ jobs:
         project_id: ${{ secrets.GCLOUD_PROJECT_ID }}
         service_account_key: ${{ secrets.GCLOUD_SA_KEY }}
 
-    # Deploy Service 1 to Cloud Functions
+    - name: Check if service1 has changes
+      id: service1_changes
+      run: |
+        if git diff --quiet HEAD^ HEAD -- ./service1; then
+          echo "no_changes=true" >> $GITHUB_ENV
+        else
+          echo "no_changes=false" >> $GITHUB_ENV
+        fi
+
     - name: Deploy Service 1 Function
+      if: env.no_changes == 'false'
       run: |
         gcloud functions deploy service1_function \
           --runtime python39 \
           --trigger-http \
           --allow-unauthenticated \
-          --source ./service1  # Use source path for service1
+          --source ./service1
 
-    # Deploy Service 2 to Cloud Functions
+    - name: Check if service2 has changes
+      id: service2_changes
+      run: |
+        if git diff --quiet HEAD^ HEAD -- ./service2; then
+          echo "no_changes=true" >> $GITHUB_ENV
+        else
+          echo "no_changes=false" >> $GITHUB_ENV
+        fi
+
     - name: Deploy Service 2 Function
+      if: env.no_changes == 'false'
       run: |
         gcloud functions deploy service2_function \
           --runtime python39 \
           --trigger-http \
           --allow-unauthenticated \
-          --source ./service2  # Use source path for service2
+          --source ./service2

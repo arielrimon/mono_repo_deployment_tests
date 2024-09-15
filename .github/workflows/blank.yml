@@ -1,0 +1,23 @@
+on:
+  pull_request:
+    branches: [main, master, dev]
+
+name: pytest
+
+jobs:
+  deploy_functions:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install_pytest
+        shell: bash
+        run: |
+                    pip install pytest
+
+      - name: pytest
+        shell: bash
+        run: |
+          chmod +x "${GITHUB_WORKSPACE}/.github/pytest_run.sh"
+          source ${GITHUB_WORKSPACE}/.github/pytest_run.sh

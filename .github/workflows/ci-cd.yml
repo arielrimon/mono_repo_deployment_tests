@@ -3,7 +3,7 @@ name: Deploy Cloud Functions
 on:
   push:
     branches:
-      - main  # Deploy on push to the main branch
+      - main  # Trigger deployment on pushes to the main branch
 
 jobs:
   deploy:
@@ -29,20 +29,20 @@ jobs:
         project_id: ${{ secrets.GCLOUD_PROJECT_ID }}
         service_account_key: ${{ secrets.GCLOUD_SA_KEY }}
 
-    # Deploy Service 1
+    # Deploy Service 1 to Cloud Functions
     - name: Deploy Service 1 Function
       run: |
-        cd service1  # Navigate to service1 directory
         gcloud functions deploy service1_function \
           --runtime python39 \
           --trigger-http \
-          --allow-unauthenticated
+          --allow-unauthenticated \
+          --source ./service1  # Use source path for service1
 
-    # Deploy Service 2
+    # Deploy Service 2 to Cloud Functions
     - name: Deploy Service 2 Function
       run: |
-        cd service2  # Navigate to service2 directory
         gcloud functions deploy service2_function \
           --runtime python39 \
           --trigger-http \
-          --allow-unauthenticated
+          --allow-unauthenticated \
+          --source ./service2  # Use source path for service2

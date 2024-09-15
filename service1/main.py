@@ -1,9 +1,2 @@
-def hello_world(request):
-    """HTTP Cloud Function.
-    Args:
-        request (flask.Request): The request object.
-        <http://flask.pocoo.org/docs/1.0/api/#flask.Request>
-    Returns:
-        The response text, or any set of values that can be turned into a Response object.
-    """
+def hello_world():
     return "Hello, World!"
